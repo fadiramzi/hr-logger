@@ -1,5 +1,5 @@
 <?php
-namespace HRLPackage\Providers;
+namespace Fadiramzi99\HrLogger\Providers;
 use Illuminate\Support\ServiceProvider;
 
 class HRLoggerServiceProvider extends ServiceProvider
