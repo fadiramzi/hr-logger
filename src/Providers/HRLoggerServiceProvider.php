@@ -1,15 +1,6 @@
-
-
-
 <?php
-
 namespace HRLPackage\Providers;
 use Illuminate\Support\ServiceProvider;
-//  use HRLPackage\Services\YourService;
-// use HRLPackage\Console\Commands\YourCommand;
-// use HRLPackage\Events\YourEvent;
-// use HRLPackage\Listeners\YourListener;
-
 
 class HRLoggerServiceProvider extends ServiceProvider
 {
