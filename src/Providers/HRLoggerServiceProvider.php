@@ -26,7 +26,10 @@ class HRLoggerServiceProvider extends ServiceProvider
        $this->app['router']->group(['prefix' => 'hr-logger/v1'], function ($router) {
         $router->get('/index', [MainController::class, 'index']);
 
-        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
+       // Auto-publish migrations
+    $this->publishes([
+        __DIR__.'/Database/migrations' => database_path('migrations')
+    ], 'hr-logger-migrations');
 
     });
     }
