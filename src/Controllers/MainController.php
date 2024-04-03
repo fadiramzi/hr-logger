@@ -1,5 +1,6 @@
 <?php
-namespace Fadiramzi99\HRLPackage\Controllers;
+namespace Fadiramzi99\HrLogger\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 

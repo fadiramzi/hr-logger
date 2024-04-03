@@ -1,6 +1,7 @@
 <?php
 namespace Fadiramzi99\HrLogger\Providers;
 use Illuminate\Support\ServiceProvider;
+use Fadiramzi99\HrLogger\Controllers\HrLoggerController;
 
 class HRLoggerServiceProvider extends ServiceProvider
 {
