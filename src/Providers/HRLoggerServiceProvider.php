@@ -37,9 +37,10 @@ class HRLoggerServiceProvider extends ServiceProvider
             __DIR__.'/../Config/hr-logger.php' => config_path('hr-logger.php')
         ], 'hr-logger-config');
 
+        
         // Auto-publish middleware
         $this->publishes([
-            __DIR__.'/../Middleware' => app_path('Http/Middleware')
+            __DIR__.'/../Http/Middleware' => app_path('Http/Middleware')
         ], 'hr-logger-middleware');
     }
 }
