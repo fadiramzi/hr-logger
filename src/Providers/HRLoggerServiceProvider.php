@@ -22,15 +22,24 @@ class HRLoggerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       // Register routes
-       $this->app['router']->group(['prefix' => 'hr-logger/v1'], function ($router) {
-        $router->get('/index', [MainController::class, 'index']);
+        // Register routes
+        $this->app['router']->group(['prefix' => 'hr-logger/v1'], function ($router) {
+            $router->get('/index', [MainController::class, 'index']);
+        });
 
-       // Auto-publish migrations
-    $this->publishes([
-        __DIR__.'/../Database/migrations' => database_path('migrations')
-    ], 'hr-logger-migrations');
+        // Auto-publish migrations
+        $this->publishes([
+            __DIR__.'/../Database/migrations' => database_path('migrations')
+        ], 'hr-logger-migrations');
 
-    });
+        // Auto-publish config
+        $this->publishes([
+            __DIR__.'/../Config/hr-logger.php' => config_path('hr-logger.php')
+        ], 'hr-logger-config');
+
+        // Auto-publish middleware
+        $this->publishes([
+            __DIR__.'/../Middleware' => app_path('Http/Middleware')
+        ], 'hr-logger-middleware');
     }
 }

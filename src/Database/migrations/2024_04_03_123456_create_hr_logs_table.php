@@ -16,7 +16,22 @@ class CreateHrLogsTable extends Migration
     {
         Schema::create('hr_logs', function (Blueprint $table) {
             $table->id();
+            $table->uuid('request_id')->unique();
+            $table->string('source_ip')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->string('api_version')->nullable();
             $table->string('endpoint');
+            $table->string('controller')->nullable();
+            $table->string('method_name')->nullable();
+            $table->string('http_method')->nullable();
+            $table->datetime('request_time');
+            $table->datetime('response_time')->nullable();
+            $table->decimal('execution_time', 10, 3);
+            $table->longText('request_payload')->nullable();
+            $table->longText('response_payload')->nullable();
+            $table->string('response_code');
+            $table->string('user_identifier')->nullable();
+            $table->longText('exception')->nullable();
             // Add your desired columns here
             $table->timestamps();
         });
