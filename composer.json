@@ -1,5 +1,5 @@
 {
-    "name": "fadiramzi99/hr-logger",
+    "name": "fadiramzi99/hrlogger",
     "description": "Http Requests Logger",
     "version":"0.0.1",
     "type": "laravel-package",
