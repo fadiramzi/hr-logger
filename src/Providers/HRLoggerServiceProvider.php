@@ -1,7 +1,7 @@
 <?php
 namespace Fadiramzi99\HrLogger\Providers;
 use Illuminate\Support\ServiceProvider;
-use Fadiramzi99\HrLogger\Controllers\HrLoggerController;
+use Fadiramzi99\HrLogger\Controllers\MainController;
 
 class HRLoggerServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class HRLoggerServiceProvider extends ServiceProvider
     {
        // Register routes
        $this->app['router']->group(['prefix' => 'hr-logger/v1'], function ($router) {
-        $router->get('/index', [HrLoggerController::class, 'index']);
+        $router->get('/index', [MainController::class, 'index']);
     });
     }
 }
