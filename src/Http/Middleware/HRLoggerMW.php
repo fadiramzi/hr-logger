@@ -23,20 +23,20 @@ class HRLoggerMW
             $startTime = microtime(true);
             // Extract information from the request
             $endpoint = $request->path();
-            $payload = $request->all(); // Adjust as needed
-
+            $payload = json_encode($request->all()); // Adjust as needed
             try {
                 // Store information in the database
                 $hrLog = HRLog::create([
                     'request_id' => (string) Str::uuid(),
                     'source_ip' => $request->ip(),
                     'user_agent' => $request->userAgent(),
-                    'api_version' => $request->header('api-version'),
+                    'api_version' => 'v1',
                     'endpoint' => $endpoint,
                     'controller' => $request->route()->getAction('controller'),
                     'method_name' => $request->route()->getAction('method'),
                     'http_method' => $request->method(),
                     'request_time' => now(),
+                    'execution_time' => 0, // Placeholder for now
                     'request_payload' => $payload,
                 ]);
 

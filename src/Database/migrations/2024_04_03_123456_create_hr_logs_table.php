@@ -26,10 +26,10 @@ class CreateHrLogsTable extends Migration
             $table->string('http_method')->nullable();
             $table->datetime('request_time');
             $table->datetime('response_time')->nullable();
-            $table->decimal('execution_time', 10, 3);
+            $table->decimal('execution_time', 10, 3)->nullable();
             $table->longText('request_payload')->nullable();
             $table->longText('response_payload')->nullable();
-            $table->string('response_code');
+            $table->string('response_code')->nullable();
             $table->string('user_identifier')->nullable();
             $table->longText('exception')->nullable();
             // Add your desired columns here
