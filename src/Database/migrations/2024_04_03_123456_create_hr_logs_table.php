@@ -27,6 +27,7 @@ class CreateHrLogsTable extends Migration
             $table->datetime('request_time');
             $table->datetime('response_time')->nullable();
             $table->decimal('execution_time', 10, 3)->nullable();
+            $table->string('time_unit');
             $table->longText('request_payload')->nullable();
             $table->longText('response_payload')->nullable();
             $table->string('response_code')->nullable();

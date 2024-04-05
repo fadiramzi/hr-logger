@@ -21,6 +21,7 @@ class HRLog extends Model
         'request_time',
         'response_time',
         'execution_time',
+        'time_unit',
         'request_payload',
         'response_payload',
         'response_code',
