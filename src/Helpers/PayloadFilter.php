@@ -6,7 +6,9 @@ class PayloadFilter
 {
     public static function excludeSensitiveKeys($payload, $sensitiveKeys = [])
     {
-
+       
+        if(!$payload)
+            return [];
         // Iterate over each key-value pair in the payload
         foreach ($payload as $key => &$value) {
             // If the value is an array or object, recursively call excludeSensitiveKeys

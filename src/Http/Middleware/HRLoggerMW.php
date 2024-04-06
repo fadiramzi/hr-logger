@@ -23,19 +23,32 @@ class HRLoggerMW
 
     public function handle(Request $request, Closure $next)
     {
-        if (config('hr-logger.logging_enabled')) {
+
+        if(!config('hr-logger.logging_enabled'))
+            return $next($request);
+
+      
             $this->timeUnit->start();
             // Extract information from the request
             $endpoint = $request->path();
             $controllerAction = $request->route()->getAction('controller');
             list($controller, $method) = explode('@', $controllerAction);
            
-            
-            if(count(config('hr-logger.sensitive_keys',[])) > 0)
+            $payload = null;
+            $responsePayload = null;
+            if(config('hr-logger.log_payloads.request', true))
             {
-                $payload = PayloadFilter::excludeSensitiveKeys($request->all(), config('hr-logger.sensitive_keys'));
+                if(count(config('hr-logger.sensitive_keys',[])) > 0)
+                {
+                    $payload = PayloadFilter::excludeSensitiveKeys($request->all(), config('hr-logger.sensitive_keys'));
+                }
+                else
+                {
+                    $payload = $request->all();
+                }
             }
-          
+           
+            
             $requestID = (string) Str::uuid();
             $sourceIP = $request->ip();
             $userAgent = $request->userAgent();
@@ -61,16 +74,30 @@ class HRLoggerMW
                     'request_time' => $requestTime,
                     'execution_time' =>  $executionTime, // Placeholder for now
                     'time_unit' => $timeUnit, // 's' or 'ms
-                    'request_payload' => $payload,
+                    'request_payload' => json_encode($payload),
                 ]);
                 if ($hrLog) {
                     $response = $next($request);
                     // Update the record with response details
                     $this->timeUnit->end();
 
+                  
+                    if(config('hr-logger.log_payloads.response', true))
+                    {
+                        if(count(config('hr-logger.sensitive_keys',[])) > 0)
+                        {
+                            // dd($response->getContent());
+                            $responsePayload = PayloadFilter::excludeSensitiveKeys(json_decode($response->getContent()), config('hr-logger.sensitive_keys'));
+                        }
+                        else
+                        {
+                            $responsePayload = $response->getContent();
+                        }
+                    }
+                    
                     $hrLog->update([
                         'response_time' => now(),
-                        'response_payload' => $response->getContent(),
+                        'response_payload' => json_encode($responsePayload),
                         'response_code' => $response->getStatusCode(),
                         'execution_time' => $this->timeUnit->getExecutionTime(),
                         'time_unit' => $timeUnit, // 's' or 'ms
@@ -95,9 +122,9 @@ class HRLoggerMW
                     'http_method' => $httpMethod,
                     'request_time' => $requestTime,
                     'execution_time' =>  $this->timeUnit->getExecutionTime(), // Placeholder for now
-                    'request_payload' => $payload,
+                    'request_payload' => json_encode($payload),
                     'response_time' => now(),
-                    'response_payload' => '',
+                    'response_payload' => json_encode($responsePayload),
                     'response_code' => 500,
                     'exception' => $exception->getMessage(),
                 ]);
@@ -107,6 +134,6 @@ class HRLoggerMW
                 // Rethrow the exception to be handled by Laravel's exception handler
                 throw $exception;
             }
-        }
+        
     }
 }
